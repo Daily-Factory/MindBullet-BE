@@ -7,6 +7,7 @@ import hackathon.mindbullet.modules.memo.dto.MemoRequest;
 import hackathon.mindbullet.modules.memo.service.MemoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,12 @@ public class MemoController {
     @PutMapping("/{memoId}")
     public ResponseEntity<Void> updateMemo(@PathVariable Long memoId, @RequestBody MemoRequest memoRequest) {
         memoService.updateMemo(memoId, memoRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{memoId}")
+    public ResponseEntity<Void> deleteMemo(@PathVariable Long memoId, @RequestBody String password) {
+        memoService.deleteMemo(memoId, password);
         return ResponseEntity.noContent().build();
     }
 }
