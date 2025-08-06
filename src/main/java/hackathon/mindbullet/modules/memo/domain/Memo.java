@@ -1,0 +1,43 @@
+package hackathon.mindbullet.modules.memo.domain;
+
+import hackathon.mindbullet.golbal.base.BaseEntity;
+import hackathon.mindbullet.modules.board.domain.Board;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Memo extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotEmpty(message = "제목을 비울 수 없습니다.")
+    private String title;
+
+    @NotEmpty(message = "타입을 비울 수 없습니다.")
+    @Enumerated(EnumType.STRING)
+    private MemoType type;
+
+    @NotEmpty(message = "내용을 비울 수 없습니다.")
+    private String content;
+
+    @NotEmpty(message = "비밀번호를 비울 수 없습니다.")
+    private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
+}
