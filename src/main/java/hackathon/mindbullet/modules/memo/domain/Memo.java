@@ -2,6 +2,7 @@ package hackathon.mindbullet.modules.memo.domain;
 
 import hackathon.mindbullet.golbal.base.BaseEntity;
 import hackathon.mindbullet.modules.board.domain.Board;
+import hackathon.mindbullet.modules.memo.dto.MemoRequest;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -49,6 +50,13 @@ public class Memo extends BaseEntity {
         this.content = content;
         this.password = password;
         this.board = board;
+    }
+
+    public void updateAllInfo(MemoRequest memoRequest) {
+        this.title = memoRequest.title();
+        this.content = memoRequest.content();
+        this.password = memoRequest.password();
+        this.type = memoRequest.type();
     }
 
     public void updateBoard(Board board) {
