@@ -12,6 +12,7 @@ import hackathon.mindbullet.modules.memo.dao.MemoRepository;
 import hackathon.mindbullet.modules.memo.domain.Memo;
 import hackathon.mindbullet.modules.memo.dto.MemoRequest;
 import hackathon.mindbullet.modules.memo.exception.MemoException;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,12 +48,18 @@ public class MemoService {
 
     public void updateMemo(Long memoId, MemoRequest memoRequest) {
         Memo findMemo = memoRepository.findById(memoId).orElseThrow(() -> new MemoException(NOT_EXISTS_ID));
-        checkMemoPassword(memoRequest, findMemo);
+        checkMemoPassword(memoRequest.password(), findMemo.getPassword());
         findMemo.updateAllInfo(memoRequest);
     }
 
-    private void checkMemoPassword(MemoRequest memoRequest, Memo findMemo) {
-        if (!memoRequest.password().equals(findMemo.getPassword())) {
+    public void deleteMemo(Long memoId, String password) {
+        Memo findMemo = memoRepository.findById(memoId).orElseThrow(() -> new MemoException(NOT_EXISTS_ID));
+        checkMemoPassword(password, findMemo.getPassword());
+        memoRepository.delete(findMemo);
+    }
+
+    private void checkMemoPassword(String password, String findMemoPassword) {
+        if (!findMemoPassword.equals(password)) {
             throw new MemoException(NOT_MATCH_PASSWORD);
         }
     }
