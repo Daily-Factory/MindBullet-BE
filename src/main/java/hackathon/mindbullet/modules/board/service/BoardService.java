@@ -9,9 +9,11 @@ import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class BoardService {
 
     private final BoardRepository boardRepository;
@@ -19,7 +21,7 @@ public class BoardService {
     public List<MemoTitleResponse> getTitles(String year, String month, String day) {
         LocalDate date = parseToLocalDate(year, month, day);
         Board findBoard = boardRepository.findByDate(date)
-                .orElseThrow(() -> new BoardException(BoardExceptionType.NOT_EXISTS_BOARD));
+                .orElseThrow(() -> new BoardException(BoardExceptionType.NOT_EXISTS_BOARD_ID));
 
         return findBoard.getMemos().stream()
                 .map(memo -> MemoTitleResponse.builder()

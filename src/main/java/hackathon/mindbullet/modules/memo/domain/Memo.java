@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,4 +41,17 @@ public class Memo extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
+
+    @Builder
+    public Memo(String title, MemoType type, String content, String password, Board board) {
+        this.title = title;
+        this.type = type;
+        this.content = content;
+        this.password = password;
+        this.board = board;
+    }
+
+    public void updateBoard(Board board) {
+        this.board = board;
+    }
 }
