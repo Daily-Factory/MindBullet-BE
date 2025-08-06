@@ -2,6 +2,7 @@ package hackathon.mindbullet.modules.memo.service;
 
 import static hackathon.mindbullet.modules.board.exception.BoardExceptionType.NOT_EXISTS_BOARD_ID;
 import static hackathon.mindbullet.modules.memo.exception.MemoExceptionType.NOT_EXISTS_ID;
+import static hackathon.mindbullet.modules.memo.exception.MemoExceptionType.NOT_MATCH_PASSWORD;
 
 import hackathon.mindbullet.modules.board.dao.BoardRepository;
 import hackathon.mindbullet.modules.board.domain.Board;
@@ -42,5 +43,17 @@ public class MemoService {
                 .content(memoRequest.content())
                 .password(memoRequest.password())
                 .build());
+    }
+
+    public void updateMemo(Long memoId, MemoRequest memoRequest) {
+        Memo findMemo = memoRepository.findById(memoId).orElseThrow(() -> new MemoException(NOT_EXISTS_ID));
+        checkMemoPassword(memoRequest, findMemo);
+        findMemo.updateAllInfo(memoRequest);
+    }
+
+    private void checkMemoPassword(MemoRequest memoRequest, Memo findMemo) {
+        if (!memoRequest.password().equals(findMemo.getPassword())) {
+            throw new MemoException(NOT_MATCH_PASSWORD);
+        }
     }
 }
