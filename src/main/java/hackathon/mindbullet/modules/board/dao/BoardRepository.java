@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
-    @Query("select b from Board b left join fetch b.memos where b.date = :date")
-    Optional<Board> findByDateWithMemo(@Param("date") LocalDate date);
+    @Query("select b from Board b left join fetch b.memos where b.id = :id")
+    Optional<Board> findByIdWithMemo(@Param("id") Long id);
     Optional<Board> findByDate(LocalDate date);
 }

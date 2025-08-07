@@ -21,7 +21,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     public List<MemoTitleResponse> getTitles(Long boardId) {
-        Board findBoard = boardRepository.findById(boardId)
+        Board findBoard = boardRepository.findByIdWithMemo(boardId)
                 .orElseThrow(() -> new BoardException(NOT_EXISTS_BOARD_ID));
 
         return findBoard.getMemos().stream()
