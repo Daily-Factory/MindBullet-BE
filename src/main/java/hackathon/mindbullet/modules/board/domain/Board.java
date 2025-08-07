@@ -2,6 +2,7 @@ package hackathon.mindbullet.modules.board.domain;
 
 import hackathon.mindbullet.golbal.base.BaseEntity;
 import hackathon.mindbullet.modules.memo.domain.Memo;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +24,7 @@ public class Board extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private LocalDate date;
 
     @OneToMany(mappedBy = "board")
