@@ -1,5 +1,7 @@
 package hackathon.mindbullet.modules.board.service;
 
+import static hackathon.mindbullet.modules.board.exception.BoardExceptionType.*;
+
 import hackathon.mindbullet.modules.board.dao.BoardRepository;
 import hackathon.mindbullet.modules.board.domain.Board;
 import hackathon.mindbullet.modules.board.dto.BoardResponse;
@@ -19,10 +21,9 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public List<MemoTitleResponse> getTitles(String year, String month, String day) {
-        LocalDate date = parseToLocalDate(year, month, day);
-        Board findBoard = boardRepository.findByDate(date)
-                .orElseThrow(() -> new BoardException(BoardExceptionType.NOT_EXISTS_BOARD_ID));
+    public List<MemoTitleResponse> getTitles(Long boardId) {
+        Board findBoard = boardRepository.findById(boardId)
+                .orElseThrow(() -> new BoardException(NOT_EXISTS_BOARD_ID));
 
         return findBoard.getMemos().stream()
                 .map(memo -> MemoTitleResponse.builder()
@@ -36,7 +37,7 @@ public class BoardService {
     public BoardResponse getBoardInfo(String year, String month, String day) {
         LocalDate date = parseToLocalDate(year, month, day);
         Board findBoard = boardRepository.findByDate(date)
-                .orElseThrow(() -> new BoardException(BoardExceptionType.NOT_EXISTS_BOARD_ID));
+                .orElseThrow(() -> new BoardException(NOT_EXISTS_BOARD_TODAY));
 
         return new BoardResponse(findBoard.getId());
     }

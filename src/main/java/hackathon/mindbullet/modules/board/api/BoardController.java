@@ -17,9 +17,9 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("/{year}/{month}/{day}/memos")
-    public List<MemoTitleResponse> getTitles(@PathVariable String year, @PathVariable String month, @PathVariable String day) {
-        return boardService.getTitles(year, month, day);
+    @GetMapping("/{boardId}/memos")
+    public List<MemoTitleResponse> getTitles(@PathVariable Long boardId) {
+        return boardService.getTitles(boardId);
     }
 
     @GetMapping("/{year}/{month}/{day}")
