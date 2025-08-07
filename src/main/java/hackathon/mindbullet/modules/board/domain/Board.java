@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,6 +30,11 @@ public class Board extends BaseEntity {
 
     @OneToMany(mappedBy = "board")
     private List<Memo> memos = new ArrayList<>();
+
+    @Builder
+    public Board(LocalDate date) {
+        this.date = date;
+    }
 
     public void addMemo(Memo memo) {
         memos.add(memo);
